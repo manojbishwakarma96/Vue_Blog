@@ -1,6 +1,24 @@
 {
   "posts": [
     {
+      "id": "1742873006857",
+      "title": "Aalu Chaat",
+      "content": "Aloo Chat is such a flavorful and refreshing dish! It typically consists of boiled potatoes (aloo), mixed with chickpeas, tangy tamarind chutney, yogurt, and a variety of spices like cumin, chaat masala, and chili powder. It's a great combination of sweet, sour, spicy, and savory flavors, perfect for a quick snack or appetizer. ",
+      "category": "Food",
+      "subcategory": "Indian",
+      "author": "Laxman",
+      "date": "2025-03-25T03:23:26.858Z"
+    },
+    {
+      "title": "Chowmin",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Chowmein is a popular Chinese dish consisting of stir-fried noodles with vegetables, meat (like chicken, pork, or beef), and a savory sauce. It's often made with ingredients like soy sauce, garlic, ginger, and sometimes vinegar or chili sauce for extra flavor.",
+      "author": "Manoj",
+      "id": 17,
+      "date": "2025-03-25"
+    },
+    {
       "title": "MOMO",
       "category": "Food",
       "subcategory": "Nepali",
