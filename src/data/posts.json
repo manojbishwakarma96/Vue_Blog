@@ -1,0 +1,139 @@
+{
+  "posts": [
+    {
+      "title": "Taco Salad",
+      "category": "Food",
+      "subcategory": "Mexican",
+      "content": "Taco Salad is a vibrant, Tex-Mex-inspired dish that combines the bold flavors of a taco in a fresh, salad form. It typically includes a base of crisp lettuce (like romaine or iceberg) topped with seasoned ground beef or turkey, although vegetarian versions with beans or plant-based meat are also popular.",
+      "author": "Manoj",
+      "id": 15,
+      "date": "2025-03-25"
+    },
+    {
+      "title": "Sushi",
+      "category": "Food",
+      "subcategory": "Asian",
+      "content": "Sushi is a beloved Japanese dish that has gained worldwide popularity for its unique flavors, freshness, and artistry. ",
+      "author": "Manoj",
+      "id": 14,
+      "date": "2025-03-25"
+    },
+    {
+      "id": "1",
+      "title": "Authentic Italian Pasta Carbonara",
+      "content": "Learn how to make the perfect Italian pasta carbonara with this traditional recipe. Using only the finest ingredients like guanciale, pecorino romano, and fresh eggs, this classic Roman dish is sure to impress.",
+      "category": "Italian",
+      "subcategory": "Pasta",
+      "author": "Chef Mario",
+      "date": "2024-03-15T10:00:00.000Z"
+    },
+    {
+      "id": "2",
+      "title": "Street Food Tour of Bangkok",
+      "content": "Explore the vibrant street food scene of Bangkok, from pad thai to som tam. Discover hidden gems and local favorites that make Thai street food world-famous.",
+      "category": "Asian",
+      "subcategory": "Thai",
+      "author": "Sarah Wong",
+      "date": "2024-03-14T15:30:00.000Z"
+    },
+    {
+      "id": "3",
+      "title": "Traditional Nepali Momos",
+      "content": "Discover the art of making perfect Nepali momos. These delicious dumplings are filled with spiced meat or vegetables and served with a spicy tomato sauce.",
+      "category": "Nepali",
+      "subcategory": "Appetizers",
+      "author": "Ram Gurung",
+      "date": "2024-03-13T09:15:00.000Z"
+    },
+    {
+      "id": 4,
+      "title": "French Pastry Basics",
+      "category": "Food",
+      "subcategory": "French",
+      "content": "Master the fundamentals of French pastry making. Learn to make croissants, éclairs, and macarons with step-by-step instructions from a professional pastry chef.",
+      "author": "Pierre Dubois",
+      "date": "2024-03-14"
+    },
+    {
+      "id": 5,
+      "title": "Sushi Making at Home",
+      "category": "Food",
+      "subcategory": "Asian",
+      "content": "A beginner's guide to making sushi at home. Learn about essential ingredients, tools, and techniques for creating perfect sushi rolls and nigiri.",
+      "author": "Yuki Tanaka",
+      "date": "2024-03-11"
+    },
+    {
+      "id": 6,
+      "title": "Mediterranean Diet Essentials",
+      "category": "Food",
+      "subcategory": "Mediterranean",
+      "content": "Discover the health benefits and delicious recipes of the Mediterranean diet. From Greek salads to Spanish paella, embrace this heart-healthy way of eating.",
+      "author": "Sofia Papadopoulos",
+      "date": "2024-03-08"
+    },
+    {
+      "id": 7,
+      "title": "Indian Curry Masterclass",
+      "category": "Food",
+      "subcategory": "Indian",
+      "content": "Master the art of Indian curry making. Learn about essential spices, cooking techniques, and regional variations of popular curry dishes.",
+      "author": "Priya Patel",
+      "date": "2024-03-05"
+    },
+    {
+      "id": 8,
+      "title": "Authentic Nepali Momos: A Complete Guide",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Learn how to make authentic Nepali momos from scratch. This comprehensive guide covers everything from making the perfect dough to preparing different fillings (chicken, buff, vegetable) and the secret to making the spicy tomato chutney. Discover the folding techniques that give momos their distinctive appearance.",
+      "author": "Aarati Sharma",
+      "date": "2024-03-04"
+    },
+    {
+      "id": 9,
+      "title": "Dal Bhat: The Heart of Nepali Cuisine",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Explore Nepal's national dish - Dal Bhat. Learn how to prepare the perfect lentil soup (dal), accompanied by aromatic rice (bhat), and various side dishes including spinach (saag), pickles (achar), and vegetable curry (tarkari). Understand why this nutritious combination is a daily staple in Nepali households.",
+      "author": "Binod Thapa",
+      "date": "2024-03-03"
+    },
+    {
+      "id": 10,
+      "title": "Nepali Festival Foods: Sel Roti & Anarasa",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Discover traditional Nepali festival treats. Master the art of making Sel Roti, the crispy rice bread ring that's essential during Tihar and Dashain festivals. Also learn to prepare Anarasa, the special deep-fried rice flour cookies. Includes tips for achieving the perfect texture and taste.",
+      "author": "Sabita Gurung",
+      "date": "2024-03-02"
+    },
+    {
+      "id": 11,
+      "title": "Nepali Curries: From Chicken Curry to Mushroom Curry",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Dive into the world of Nepali curries. Learn to make traditional chicken curry with its unique blend of spices, mushroom curry using local mushrooms, and the famous potato-bamboo shoot curry. Discover how Nepali curries differ from their Indian counterparts through specific spice combinations and cooking techniques.",
+      "author": "Ram Krishna Shrestha",
+      "date": "2024-03-01"
+    },
+    {
+      "id": 12,
+      "title": "Nepali Street Food Adventures",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Take a journey through Nepal's vibrant street food scene. From chatamari (Nepali pizza) to samosa chaat, pani puri, and the famous Newari bara. Learn about the best street food locations in Kathmandu and try making these popular snacks at home with authentic recipes and techniques.",
+      "author": "Maya Maharjan",
+      "date": "2024-02-29"
+    },
+    {
+      "id": 13,
+      "title": "Traditional Nepali Pickles and Chutneys",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Master the art of making traditional Nepali pickles (achar) and chutneys. From the spicy tomato achar to the timur-based hemp chutney, learn how to prepare and preserve these essential accompaniments to Nepali meals. Includes recipes for gundruk (fermented greens), lapsi achar, and various seasonal pickles.",
+      "author": "Kamala Tamang",
+      "date": "2024-02-28"
+    }
+  ]
+}
