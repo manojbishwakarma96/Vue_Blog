@@ -5,6 +5,14 @@
         <h1>Food Stories Collection</h1>
         <div class="section-divider"></div>
         <p class="header-subtitle">Browse through our curated collection of culinary experiences</p>
+        <div v-if="loading" class="loading-indicator">
+          <i class="fas fa-spinner fa-spin"></i>
+          Loading posts...
+        </div>
+        <div v-if="error" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ error }}
+        </div>
       </div>
     </section>
 
@@ -56,6 +64,10 @@
               </span>
             </p>
             <p class="post-content-text">{{ post.content }}</p>
+            <button class="info-btn" @click="showPostInfo(post)">
+              <i class="fas fa-info-circle"></i>
+              Post Info
+            </button>
           </div>
         </article>
       </div>
@@ -63,11 +75,11 @@
   </div>
 
   <!-- Create New Post Modal -->
-  <div v-if="showNewPostForm" class="modal-overlay" @click="showNewPostForm = false">
+  <div v-if="showNewPostForm" class="modal-overlay" @click="closeNewPostForm">
     <div class="modal-content" @click.stop>
       <div class="modal-header">
         <h2>Create New Post</h2>
-        <button class="close-btn" @click="showNewPostForm = false">
+        <button class="close-btn" @click="closeNewPostForm">
           <i class="fas fa-times"></i>
         </button>
       </div>
@@ -128,7 +140,7 @@
         </div>
 
         <div class="form-actions">
-          <button type="button" class="cancel-btn" @click="showNewPostForm = false">Cancel</button>
+          <button type="button" class="cancel-btn" @click="closeNewPostForm">Cancel</button>
           <button type="submit" class="submit-btn" :disabled="isSubmitting">
             {{ isSubmitting ? 'Creating...' : 'Create Post' }}
           </button>
@@ -137,26 +149,34 @@
     </div>
   </div>
 
-  <PostModal 
+  <PostInfoModal 
     :show="showModal" 
     :post="selectedPost" 
-    @close="showModal = false"
+    @close="closeModal"
   />
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import PostModal from '../components/PostModal.vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import PostInfoModal from '../components/PostInfoModal.vue'
 import axios from 'axios'
 
+// State management
 const posts = ref([])
 const filteredPosts = ref([])
 const searchQuery = ref('')
+const selectedCategory = ref('All')
 const showModal = ref(false)
 const selectedPost = ref(null)
-const selectedCategory = ref('All')
 const showNewPostForm = ref(false)
 const isSubmitting = ref(false)
+const loading = ref(true)
+const error = ref(null)
+
+// Track component mounted state
+let isMounted = false
+let searchDebounceTimeout = null
+let autoRefreshInterval = null
 
 const newPost = ref({
   title: '',
@@ -166,51 +186,103 @@ const newPost = ref({
   author: ''
 })
 
+// Computed properties
 const uniqueCategories = computed(() => {
   const categories = ['All', ...new Set(posts.value.map(post => post.category))]
   return categories
 })
 
+// Methods
 const filterByCategory = (category) => {
   selectedCategory.value = category
   filterPosts()
 }
 
 const filterPosts = () => {
-  const query = searchQuery.value.toLowerCase()
-  filteredPosts.value = posts.value.filter(post => {
-    const matchesSearch = 
-      post.title.toLowerCase().includes(query) ||
-      post.category.toLowerCase().includes(query) ||
-      post.subcategory.toLowerCase().includes(query)
-    
-    const matchesCategory = 
-      selectedCategory.value === 'All' || 
-      post.category === selectedCategory.value
+  // Clear existing timeout
+  if (searchDebounceTimeout) {
+    clearTimeout(searchDebounceTimeout)
+  }
 
-    return matchesSearch && matchesCategory
-  })
+  // Debounce search
+  searchDebounceTimeout = setTimeout(() => {
+    const query = searchQuery.value.toLowerCase()
+    filteredPosts.value = posts.value.filter(post => {
+      const matchesSearch = 
+        post.title.toLowerCase().includes(query) ||
+        post.category.toLowerCase().includes(query) ||
+        post.subcategory.toLowerCase().includes(query)
+      
+      const matchesCategory = 
+        selectedCategory.value === 'All' || 
+        post.category === selectedCategory.value
+
+      return matchesSearch && matchesCategory
+    })
+  }, 300)
+}
+
+const showPostInfo = (post) => {
+  selectedPost.value = post
+  showModal.value = true
+}
+
+const closeModal = () => {
+  showModal.value = false
+  selectedPost.value = null
+}
+
+const closeNewPostForm = () => {
+  showNewPostForm.value = false
+  resetNewPostForm()
+}
+
+const resetNewPostForm = () => {
+  newPost.value = {
+    title: '',
+    category: '',
+    subcategory: '',
+    content: '',
+    author: ''
+  }
 }
 
 const createPost = async () => {
   isSubmitting.value = true
   try {
     const response = await axios.post('http://localhost:3000/api/posts', newPost.value)
-    posts.value.unshift(response.data)
-    filteredPosts.value = posts.value
-    showNewPostForm.value = false
-    newPost.value = {
-      title: '',
-      category: '',
-      subcategory: '',
-      content: '',
-      author: ''
+    if (isMounted) {
+      posts.value.unshift(response.data)
+      filterPosts()
+      closeNewPostForm()
     }
-  } catch (error) {
-    console.error('Error creating post:', error)
-    alert('Error creating post. Please try again.')
+  } catch (err) {
+    console.error('Error creating post:', err)
+    error.value = 'Error creating post. Please try again.'
   } finally {
-    isSubmitting.value = false
+    if (isMounted) {
+      isSubmitting.value = false
+    }
+  }
+}
+
+const fetchPosts = async () => {
+  try {
+    loading.value = true
+    error.value = null
+    const response = await axios.get('http://localhost:3000/api/posts')
+    
+    if (isMounted) {
+      posts.value = response.data.posts
+      filteredPosts.value = posts.value
+      loading.value = false
+    }
+  } catch (err) {
+    if (isMounted) {
+      error.value = 'Error loading posts. Please try again later.'
+      loading.value = false
+      console.error('Error fetching posts:', err)
+    }
   }
 }
 
@@ -222,16 +294,58 @@ const formatDate = (dateString) => {
   })
 }
 
+// Lifecycle hooks
 onMounted(async () => {
-  try {
-    const response = await axios.get('http://localhost:3000/api/posts')
-    posts.value = response.data.posts
-    filteredPosts.value = posts.value
-  } catch (error) {
-    console.error('Error loading posts:', error)
-    alert('Error loading posts. Please refresh the page.')
+  console.log('PostsView mounted - Initializing data fetching')
+  isMounted = true
+  
+  // Initial fetch
+  await fetchPosts()
+  
+  // Set up auto-refresh every 5 minutes
+  autoRefreshInterval = setInterval(fetchPosts, 300000)
+  
+  // Add keyboard event listener for Escape key
+  document.addEventListener('keydown', handleKeyDown)
+  
+  // Restore scroll position
+  const savedScrollPos = sessionStorage.getItem('postsScrollPosition')
+  if (savedScrollPos) {
+    window.scrollTo(0, parseInt(savedScrollPos))
+    sessionStorage.removeItem('postsScrollPosition')
   }
 })
+
+onBeforeUnmount(() => {
+  console.log('PostsView unmounting - Cleaning up resources')
+  isMounted = false
+  
+  // Clear intervals and timeouts
+  if (autoRefreshInterval) {
+    clearInterval(autoRefreshInterval)
+  }
+  if (searchDebounceTimeout) {
+    clearTimeout(searchDebounceTimeout)
+  }
+  
+  // Remove event listeners
+  document.removeEventListener('keydown', handleKeyDown)
+  
+  // Save scroll position
+  sessionStorage.setItem('postsScrollPosition', window.scrollY.toString())
+})
+
+// Handle Escape key press
+const handleKeyDown = (event) => {
+  if (event.key === 'Escape') {
+    if (showNewPostForm.value) {
+      closeNewPostForm()
+    }
+    if (showModal.value) {
+      closeModal()
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -592,6 +706,36 @@ onMounted(async () => {
 
 .cancel-btn:hover {
   background: #eee;
+}
+
+.loading-indicator,
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.loading-indicator {
+  color: var(--primary-color);
+  background: rgba(66, 184, 131, 0.1);
+}
+
+.loading-indicator i {
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.error-message i {
+  font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {

@@ -28,6 +28,14 @@
         <h2>Latest Food Stories</h2>
         <div class="section-divider"></div>
         <p class="section-subtitle">Discover our latest culinary adventures and recipes</p>
+        <div v-if="loading" class="loading-indicator">
+          <i class="fas fa-spinner fa-spin"></i>
+          Loading posts...
+        </div>
+        <div v-if="error" class="error-message">
+          <i class="fas fa-exclamation-circle"></i>
+          {{ error }}
+        </div>
       </div>
       
       <div class="posts-grid">
@@ -47,42 +55,46 @@
               </span>
             </p>
             <p class="post-content-text">{{ post.content }}</p>
+            <button class="info-btn" @click="showPostInfo(post)">
+              <i class="fas fa-info-circle"></i>
+              Post Info
+            </button>
           </div>
         </article>
       </div>
     </section>
   </div>
 
-  <PostModal 
-    :show="showModal" 
-    :post="selectedPost" 
-    @close="showModal = false"
+  <PostInfoModal 
+    :show="showModal"
+    :post="selectedPost"
+    @close="closeModal"
   />
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import PostModal from '../components/PostModal.vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+import PostInfoModal from '../components/PostInfoModal.vue'
 import axios from 'axios'
 
 const posts = ref([])
-const filteredPosts = ref([])
-const searchQuery = ref('')
+const loading = ref(true)
+const error = ref(null)
 const showModal = ref(false)
 const selectedPost = ref(null)
 
-const showPostDetails = (post) => {
+// Track component mounted state
+let isMounted = false
+let autoRefreshInterval = null
+
+const showPostInfo = (post) => {
   selectedPost.value = post
   showModal.value = true
 }
 
-const filterPosts = () => {
-  const query = searchQuery.value.toLowerCase()
-  filteredPosts.value = posts.value.filter(post => 
-    post.title.toLowerCase().includes(query) ||
-    post.category.toLowerCase().includes(query) ||
-    post.subcategory.toLowerCase().includes(query)
-  )
+const closeModal = () => {
+  showModal.value = false
+  selectedPost.value = null
 }
 
 const formatDate = (dateString) => {
@@ -93,15 +105,56 @@ const formatDate = (dateString) => {
   })
 }
 
-onMounted(async () => {
+const fetchPosts = async () => {
   try {
+    loading.value = true
+    error.value = null
     const response = await axios.get('http://localhost:3000/api/posts')
-    posts.value = response.data.posts
-    filteredPosts.value = posts.value
-  } catch (error) {
-    console.error('Error loading posts:', error)
-    alert('Error loading posts. Please refresh the page.')
+    
+    // Only update if component is still mounted
+    if (isMounted) {
+      posts.value = response.data.posts
+      loading.value = false
+    }
+  } catch (err) {
+    if (isMounted) {
+      error.value = 'Error loading posts. Please try again later.'
+      loading.value = false
+      console.error('Error fetching posts:', err)
+    }
   }
+}
+
+// Lifecycle hooks
+onMounted(async () => {
+  console.log('HomeView mounted - Initializing data fetching')
+  isMounted = true
+  
+  // Initial fetch
+  await fetchPosts()
+  
+  // Set up auto-refresh every 5 minutes
+  autoRefreshInterval = setInterval(fetchPosts, 300000)
+  
+  // Add scroll position restoration
+  const savedScrollPos = sessionStorage.getItem('homeScrollPosition')
+  if (savedScrollPos) {
+    window.scrollTo(0, parseInt(savedScrollPos))
+    sessionStorage.removeItem('homeScrollPosition')
+  }
+})
+
+onBeforeUnmount(() => {
+  console.log('HomeView unmounting - Cleaning up resources')
+  isMounted = false
+  
+  // Clear auto-refresh interval
+  if (autoRefreshInterval) {
+    clearInterval(autoRefreshInterval)
+  }
+  
+  // Save scroll position
+  sessionStorage.setItem('homeScrollPosition', window.scrollY.toString())
 })
 </script>
 
@@ -302,6 +355,61 @@ onMounted(async () => {
   flex-grow: 1;
   overflow-wrap: break-word;
   white-space: pre-wrap;
+}
+
+.info-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: all 0.3s ease;
+}
+
+.info-btn:hover {
+  background: #3aa876;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info-btn i {
+  font-size: 1.1rem;
+}
+
+.loading-indicator,
+.error-message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.loading-indicator {
+  color: var(--primary-color);
+  background: rgba(66, 184, 131, 0.1);
+}
+
+.loading-indicator i {
+  font-size: 1.2rem;
+}
+
+.error-message {
+  color: #dc3545;
+  background: rgba(220, 53, 69, 0.1);
+}
+
+.error-message i {
+  font-size: 1.2rem;
 }
 
 @media (max-width: 768px) {

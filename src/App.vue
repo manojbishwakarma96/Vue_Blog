@@ -6,9 +6,26 @@
   <div class="app">
     <header class="header">
       <nav class="nav">
-        <router-link to="/" class="nav-link">Home</router-link>
-        <router-link to="/posts" class="nav-link">Posts</router-link>
-        <router-link to="/about" class="nav-link">About</router-link>
+        <div class="nav-brand">
+          <router-link to="/" class="brand-link">
+            <i class="fas fa-utensils"></i>
+            <span class="brand-name">Taste & Tales</span>
+          </router-link>
+        </div>
+        <div class="nav-links">
+          <router-link to="/" class="nav-link" active-class="active">
+            <i class="fas fa-home"></i>
+            Home
+          </router-link>
+          <router-link to="/posts" class="nav-link" active-class="active">
+            <i class="fas fa-book-open"></i>
+            Posts
+          </router-link>
+          <router-link to="/about" class="nav-link" active-class="active">
+            <i class="fas fa-info-circle"></i>
+            About
+          </router-link>
+        </div>
       </nav>
     </header>
 
@@ -28,6 +45,7 @@
   --secondary-color: #2c3e50;
   --text-color: #333;
   --background-color: #fafafa;
+  --nav-height: 70px;
 }
 
 * {
@@ -54,39 +72,80 @@ body {
 
 .header {
   background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 100;
-  padding: 1rem 0;
+  height: var(--nav-height);
 }
 
 .nav {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Playfair Display', serif;
+  transition: transform 0.3s ease;
+}
+
+.brand-link:hover {
+  transform: translateY(-1px);
+}
+
+.brand-link i {
+  font-size: 1.8rem;
+}
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
 }
 
 .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   color: var(--secondary-color);
   text-decoration: none;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.nav-link i {
+  font-size: 1.1rem;
 }
 
 .nav-link:hover {
   color: var(--primary-color);
   background-color: rgba(66, 184, 131, 0.1);
+  transform: translateY(-1px);
 }
 
-.nav-link.router-link-active {
+.nav-link.active {
   color: var(--primary-color);
   background-color: rgba(66, 184, 131, 0.1);
 }
@@ -94,8 +153,8 @@ body {
 .main-content {
   flex: 1;
   width: 100%;
-  margin-top: 4rem;
-  min-height: calc(100vh - 200px);
+  margin-top: var(--nav-height);
+  min-height: calc(100vh - var(--nav-height) - 80px);
   position: relative;
 }
 
@@ -105,22 +164,48 @@ body {
   text-align: center;
   padding: 2rem;
   margin-top: auto;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
   .nav {
     padding: 0 1rem;
-    gap: 1rem;
+  }
+
+  .brand-name {
+    font-size: 1.3rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .nav-link i {
+    font-size: 1rem;
+  }
+
+  .main-content {
+    margin-top: var(--nav-height);
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-name {
+    display: none;
+  }
+
+  .nav-link span {
+    display: none;
   }
 
   .nav-link {
     padding: 0.5rem;
-    font-size: 0.9rem;
   }
 
-  .main-content {
-    margin-top: 3rem;
+  .nav-link i {
+    font-size: 1.2rem;
   }
 }
 </style>
+

@@ -57,7 +57,6 @@
               <p class="member-role">Co-Founder & Content Director</p>
               <p class="member-bio">Expert in food culture and culinary traditions, specializing in Nepali and Asian cuisines</p>
             </div>
-            
           </div>
         </div>
 
@@ -143,7 +142,7 @@
 }
 
 .about-content {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: -60px auto 0;
   padding: 0 2rem 2rem;
   position: relative;
@@ -161,6 +160,10 @@
   margin-bottom: 4rem;
 }
 
+.about-section:last-child {
+  margin-bottom: 0;
+}
+
 .about-section h2 {
   color: var(--secondary-color);
   font-size: 2rem;
@@ -173,12 +176,11 @@
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
-  max-width: 800px;
 }
 
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin: 3rem 0;
 }
@@ -189,10 +191,12 @@
   border-radius: 12px;
   text-align: center;
   transition: transform 0.3s ease;
+  border: 1px solid #eee;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
+  border-color: var(--primary-color);
 }
 
 .feature-card i {
@@ -207,13 +211,9 @@
   font-size: 1.2rem;
 }
 
-.mission-list {
-  display: none; /* Hide the bullet points */
-}
-
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -223,6 +223,13 @@
   padding: 2rem;
   background: #f8f9fa;
   border-radius: 12px;
+  border: 1px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
 }
 
 .member-image {
@@ -232,6 +239,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .member-image i {
@@ -242,6 +252,7 @@
 .team-member h3 {
   color: var(--secondary-color);
   margin-bottom: 0.5rem;
+  font-size: 1.3rem;
 }
 
 .member-role {
@@ -252,14 +263,14 @@
 
 .member-bio {
   color: var(--text-color);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
@@ -267,28 +278,57 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  color: var(--text-color);
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: transform 0.3s ease;
+}
+
+.contact-item:hover {
+  transform: translateX(5px);
+  border-color: var(--primary-color);
 }
 
 .contact-item i {
+  font-size: 1.5rem;
   color: var(--primary-color);
-  font-size: 1.2rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .social-links {
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  justify-content: center;
 }
 
 .social-link {
-  color: var(--secondary-color);
-  font-size: 1.5rem;
-  transition: color 0.3s ease;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+  border-radius: 50%;
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+  border: 1px solid #eee;
 }
 
 .social-link:hover {
-  color: var(--primary-color);
+  background: var(--primary-color);
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -304,25 +344,35 @@
     font-size: 1rem;
   }
 
+  .about-content {
+    padding: 0 1rem 1rem;
+    margin-top: -40px;
+  }
+
   .content-container {
-    padding: 2rem;
+    padding: 1.5rem;
+  }
+
+  .features-grid,
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
   .about-section h2 {
     font-size: 1.8rem;
   }
 
-  .features-grid,
-  .team-grid {
-    grid-template-columns: 1fr;
+  .about-section p {
+    font-size: 1rem;
   }
 
   .contact-info {
-    align-items: center;
+    gap: 1rem;
   }
 
   .social-links {
-    justify-content: center;
+    flex-wrap: wrap;
   }
 }
 </style> 

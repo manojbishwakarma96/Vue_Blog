@@ -1,6 +1,15 @@
 {
   "posts": [
     {
+      "title": "MOMO",
+      "category": "Food",
+      "subcategory": "Nepali",
+      "content": "Momo is a beloved dumpling dish originating from Tibet, Nepal, and Bhutan, but now popular across India, China (as \"Jiaozi\"), and beyond. These steamed or fried dumplings are filled with spiced meat or vegetables and served with a tangy, spicy dipping sauce.",
+      "author": "Laxman",
+      "id": 16,
+      "date": "2025-03-25"
+    },
+    {
       "title": "Taco Salad",
       "category": "Food",
       "subcategory": "Mexican",
