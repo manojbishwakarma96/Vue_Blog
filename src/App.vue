@@ -4,21 +4,20 @@
 
 <template>
   <div class="app">
-    <header>
-      <nav class="nav-container">
-        <router-link to="/" class="logo">VueBlog</router-link>
-        <div class="nav-links">
-          <router-link to="/" class="nav-link">Home</router-link>
-          <router-link to="/posts" class="nav-link">Posts</router-link>
-          <router-link to="/about" class="nav-link">About</router-link>
-        </div>
+    <header class="header">
+      <nav class="nav">
+        <router-link to="/" class="nav-link">Home</router-link>
+        <router-link to="/posts" class="nav-link">Posts</router-link>
+        <router-link to="/about" class="nav-link">About</router-link>
       </nav>
     </header>
-    <main>
+
+    <main class="main-content">
       <router-view></router-view>
     </main>
-    <footer>
-      <p>&copy; 2024 VueBlog. All rights reserved.</p>
+
+    <footer class="footer">
+      <p>&copy; 2024 Taste & Tales. All rights reserved.</p>
     </footer>
   </div>
 </template>
@@ -26,10 +25,9 @@
 <style>
 :root {
   --primary-color: #42b883;
-  --secondary-color: #35495e;
-  --background-color: #f5f5f5;
-  --text-color: #2c3e50;
-  --font-family: 'Roboto', sans-serif;
+  --secondary-color: #2c3e50;
+  --text-color: #333;
+  --background-color: #fafafa;
 }
 
 * {
@@ -39,12 +37,13 @@
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-family);
-  background-color: var(--background-color);
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
   color: var(--text-color);
+  background-color: var(--background-color);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .app {
@@ -53,39 +52,28 @@ body {
   min-height: 100vh;
 }
 
-header {
-  background-color: var(--primary-color);
-  width: 100%;
+.header {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  right: 0;
+  z-index: 100;
+  padding: 1rem 0;
 }
 
-.nav-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  max-width: 100%;
+.nav {
+  max-width: 1400px;
   margin: 0 auto;
-}
-
-.logo {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-decoration: none;
-}
-
-.nav-links {
+  padding: 0 2rem;
   display: flex;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 2rem;
 }
 
 .nav-link {
-  color: white;
+  color: var(--secondary-color);
   text-decoration: none;
   font-weight: 500;
   padding: 0.5rem 1rem;
@@ -94,46 +82,45 @@ header {
 }
 
 .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-2px);
+  color: var(--primary-color);
+  background-color: rgba(66, 184, 131, 0.1);
 }
 
-main {
+.nav-link.router-link-active {
+  color: var(--primary-color);
+  background-color: rgba(66, 184, 131, 0.1);
+}
+
+.main-content {
   flex: 1;
   width: 100%;
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  min-height: calc(100vh - 60px);
+  margin-top: 4rem;
+  min-height: calc(100vh - 200px);
+  position: relative;
 }
 
-footer {
-  background-color: var(--secondary-color);
-  color: white;
+.footer {
+  background-color: white;
+  color: var(--secondary-color);
   text-align: center;
-  padding: 1rem;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  padding: 2rem;
+  margin-top: auto;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: 768px) {
-  .nav-container {
-    flex-direction: column;
-    padding: 1rem;
+  .nav {
+    padding: 0 1rem;
+    gap: 1rem;
   }
 
-  .nav-links {
-    margin-top: 1rem;
-    gap: 0.5rem;
+  .nav-link {
+    padding: 0.5rem;
+    font-size: 0.9rem;
   }
 
-  .logo {
-    margin-bottom: 0.5rem;
-  }
-
-  main {
-    padding-top: 7rem;
+  .main-content {
+    margin-top: 3rem;
   }
 }
 </style>
